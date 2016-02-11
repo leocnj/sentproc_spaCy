@@ -1,7 +1,7 @@
 """
 using spaCy to generate POS and DP tag sequence
 """
-import os
+import sys, os
 from spacy.en import English
 import pandas as pd
 
@@ -26,8 +26,8 @@ def proc_onecsv(csvFile):
         pos_col.append(' '.join(pos_seq))
         dp_col.append(' '.join(dp_seq))
     (path, ext) = os.path.splitext(csvFile)
-    pos_csv = path + '_pos' + '.csv'
-    dp_csv = path + '_dp' + '.csv'
+    pos_csv = path + '_pos.csv'
+    dp_csv = path + '_dp.csv'
 
     pos_df = pd.DataFrame({'label': label, 'text': pos_col})
     pos_df.to_csv(pos_csv, index=False)
@@ -42,9 +42,12 @@ def proc_onedir(dir_path):
         if f.endswith('.csv'):
             proc_onecsv(dir_path+'/'+f)
 
+def test():
+    proc_onedir('test')
 
-parser = English()
-proc_onedir('test')
+if __name__ == '__main__':
+    parser = English()
+    proc_onedir(sys.argv[1])
 
 
 
